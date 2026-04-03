@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Makeup by Rahmah</title>
+<link rel="manifest" href="/manifest.json"/>
+<meta name="theme-color" content="#d4496e"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Rahmah"/>
+<link rel="apple-touch-icon" href="/icons/icon-192.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:       #0e080c;
+  --surface:  #1c1118;
+  --card:     #241620;
+  --border:   rgba(210,140,170,0.15);
+  --rose:     #d4496e;
+  --blush:    #f2a7be;
+  --gold:     #e8c07d;
+  --cream:    #fdf3ec;
+  --muted:    rgba(242,167,190,0.5);
+  --text:     #f5e8ee;
+  --radius:   18px;
+  --font-d:   'Cormorant Garamond', Georgia, serif;
+  --font-s:   'Plus Jakarta Sans', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-s);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── Ambient background ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 10%, rgba(212,73,110,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 80% 90%, rgba(232,192,125,0.05) 0%, transparent 70%);
+}
+
+/* ── Header ── */
+header {
+  position: sticky; top: 0; z-index: 200;
+  backdrop-filter: blur(20px);
+  background: rgba(14,8,12,0.85);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo {
+  display: flex; align-items: center; gap: 12px;
+}
+.logo-icon {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--rose), #8b1a3a);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+.logo-text { line-height: 1.15; }
+.logo-top {
+  font-family: var(--font-d);
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+.logo-main {
+  font-family: var(--font-d);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--blush);
+  letter-spacing: 0.5px;
+}
+nav { display: flex; gap: 4px; }
+.nav-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: rgba(242,167,190,0.5);
+  padding: 7px 16px;
+  border-radius: 40px;
+  font-family: var(--font-s);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+}
+.nav-btn:hover { color: var(--blush); border-color: var(--border); }
+.nav-btn.active { background: rgba(212,73,110,0.15); border-color: rgba(212,73,110,0.35); color: var(--blush); }
+
+/* ── Layout ── */
+main { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+.view { display: none; animation: fadeUp 0.3s ease both; }
+.view.active { display: block; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+
+/* ── Page title ── */
+.page-title {
+  font-family: var(--font-d);
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--blush);
+  margin-bottom: 0.3rem;
+  letter-spacing: 0.3px;
+}
+.page-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 2rem; }
+
+/* ── Stats ── */
+.stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 2.5rem; }
+.stat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.2rem;
+}
+.stat-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+.stat-val { font-family: var(--font-d); font-size: 2.2rem; font-weight: 600; color: var(--rose); line-height: 1; }
+@media(max-width:600px){ .stats { grid-template-columns: repeat(2,1fr); } }
+
+/* ── Form card ── */
+.form-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+}
+.section-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--gold);
+  font-weight: 600;
+  margin: 1.8rem 0 1rem;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-label::after { content:''; flex:1; height:1px; background: rgba(232,192,125,0.15); }
+.section-label:first-child { margin-top: 0; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+@media(max-width:580px){ .grid-2,.grid-3 { grid-template-columns:1fr; } }
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.3px; }
+input[type=text], input[type=tel], input[type=email],
+input[type=date], input[type=time], select, textarea {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(210,140,170,0.2);
+  border-radius: 10px;
+  font-family: var(--font-s);
+  font-size: 0.88rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: rgba(212,73,110,0.5);
+  box-shadow: 0 0 0 3px rgba(212,73,110,0.1);
+}
+select option { background: #241620; color: var(--text); }
+textarea { resize: vertical; min-height: 70px; }
+
+/* ── Channel toggles ── */
+.channel-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.ch-toggle {
+  display: flex; align-items: center; gap: 9px;
+  padding: 10px 18px;
+  border: 1px solid rgba(210,140,170,0.2);
+  border-radius: 40px;
+  cursor: pointer;
+  font-size: 0.84rem;
+  color: var(--muted);
+  transition: all 0.18s;
+  user-select: none;
+  font-family: var(--font-s);
+}
+.ch-toggle input { display: none; }
+.ch-toggle.on { background: rgba(212,73,110,0.18); border-color: rgba(212,73,110,0.5); color: var(--blush); font-weight: 500; }
+.ch-toggle.locked {
+  background: rgba(212,73,110,0.22);
+  border-color: rgba(212,73,110,0.55);
+  color: var(--blush);
+  font-weight: 500;
+  cursor: default;
+}
+
+/* ── Multi-reminder builder ── */
+.reminder-builder { display: flex; flex-direction: column; gap: 10px; }
+.reminder-row {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(210,140,170,0.15);
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+.reminder-row select { flex: 1; }
+.rem-label { font-size: 0.8rem; color: var(--muted); white-space: nowrap; }
+.rem-remove {
+  background: none; border: none;
+  color: rgba(212,73,110,0.4); cursor: pointer;
+  font-size: 1rem; padding: 2px 6px;
+  transition: color 0.15s;
+}
+.rem-remove:hover { color: var(--rose); }
+.btn-add-reminder {
+  display: flex; align-items: center; gap: 8px;
+  background: none;
+  border: 1px dashed rgba(232,192,125,0.25);
+  border-radius: 10px;
+  color: var(--gold);
+  font-family: var(--font-s);
+  font-size: 0.82rem;
+  padding: 9px 16px;
+  cursor: pointer;
+  transition: all 0.18s;
+  width: fit-content;
+}
+.btn-add-reminder:hover { border-color: rgba(232,192,125,0.5); background: rgba(232,192,125,0.05); }
+
+/* ── Monthly toggle ── */
+.monthly-row {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: rgba(232,192,125,0.05);
+  border: 1px solid rgba(232,192,125,0.15);
+  border-radius: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+}
+.monthly-checkbox {
+  width: 18px; height: 18px; flex-shrink: 0;
+  border: 1px solid rgba(232,192,125,0.4);
+  border-radius: 5px;
+  background: transparent;
+  cursor: pointer;
+  accent-color: var(--gold);
+  margin-top: 2px;
+}
+.monthly-info strong { font-size: 0.88rem; color: var(--gold); display: block; margin-bottom: 3px; }
+.monthly-info p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+/* ── Ringtone ── */
+.ringtone-zone {
+  border: 1.5px dashed rgba(212,73,110,0.25);
+  border-radius: 12px;
+  padding: 1.4rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.ringtone-zone:hover { border-color: rgba(212,73,110,0.5); background: rgba(212,73,110,0.04); }
+.ringtone-zone p { font-size: 0.82rem; color: var(--muted); margin-top: 4px; }
+.ringtone-zone .file-picked { color: var(--blush); font-size: 0.85rem; font-weight: 500; margin-top: 6px; }
+#ringtone-input { display: none; }
+.alarm-note {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 8px;
+  line-height: 1.5;
+  padding: 10px 14px;
+  background: rgba(212,73,110,0.06);
+  border-radius: 8px;
+  border-left: 2px solid rgba(212,73,110,0.3);
+}
+
+/* ── Submit ── */
+.btn-submit {
+  width: 100%; margin-top: 1.8rem;
+  padding: 15px;
+  background: linear-gradient(135deg, var(--rose), #8b1a3a);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-family: var(--font-d);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.btn-submit:hover { opacity: 0.9; }
+.btn-submit:active { transform: scale(0.99); }
+.btn-submit:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ── Appointment cards ── */
+.appt-grid { display: flex; flex-direction: column; gap: 14px; }
+.appt-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.4rem;
+  transition: border-color 0.2s;
+}
+.appt-card:hover { border-color: rgba(212,73,110,0.3); }
+.appt-top { display: flex; align-items: flex-start; gap: 14px; }
+.appt-avatar {
+  width: 48px; height: 48px; flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(212,73,110,0.4), rgba(139,26,58,0.6));
+  border: 1px solid rgba(212,73,110,0.3);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-d);
+  font-size: 1.1rem;
+  color: var(--blush);
+  font-weight: 600;
+}
+.appt-info { flex: 1; }
+.appt-name { font-size: 1rem; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+.appt-service { font-size: 0.8rem; color: var(--muted); }
+.appt-datetime {
+  text-align: right; flex-shrink: 0;
+}
+.appt-date { font-size: 0.82rem; color: var(--blush); font-weight: 500; }
+.appt-time { font-family: var(--font-d); font-size: 1.3rem; color: var(--gold); }
+.appt-bottom {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(210,140,170,0.1);
+  display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+}
+.pill {
+  font-size: 0.7rem;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+.pill-sms     { background: rgba(41,121,199,0.15); color: #82b4e8; border: 1px solid rgba(41,121,199,0.2); }
+.pill-wa      { background: rgba(26,122,82,0.15);  color: #6fcaa8; border: 1px solid rgba(26,122,82,0.2); }
+.pill-email   { background: rgba(176,108,16,0.15); color: #e6a84a; border: 1px solid rgba(176,108,16,0.2); }
+.pill-alarm   { background: rgba(212,73,110,0.15); color: #f2a7be; border: 1px solid rgba(212,73,110,0.25); }
+.pill-monthly { background: rgba(232,192,125,0.1); color: var(--gold); border: 1px solid rgba(232,192,125,0.2); }
+.pill-done    { background: rgba(61,191,138,0.12); color: #6fd4aa; border: 1px solid rgba(61,191,138,0.2); }
+.rem-pills { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.rem-pill {
+  font-size: 0.68rem;
+  padding: 2px 9px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.05);
+  color: var(--muted);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+.rem-pill.fired { text-decoration: line-through; opacity: 0.4; }
+.del-btn {
+  margin-left: auto;
+  background: none; border: none;
+  color: rgba(212,73,110,0.3);
+  cursor: pointer; font-size: 1rem; padding: 4px 6px;
+  transition: color 0.15s;
+}
+.del-btn:hover { color: var(--rose); }
+.countdown-badge {
+  font-family: var(--font-d);
+  font-size: 0.9rem;
+  color: var(--gold);
+  margin-left: auto;
+  margin-right: 4px;
+}
+.empty-state { text-align: center; padding: 5rem 0; color: var(--muted); }
+.empty-icon { font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.5; }
+.empty-text { font-family: var(--font-d); font-size: 1.2rem; }
+
+/* ── Alarm overlay ── */
+#alarm-overlay {
+  display: none; position: fixed; inset: 0; z-index: 1000;
+  background: rgba(5,0,8,0.95);
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: 0;
+  backdrop-filter: blur(10px);
+}
+#alarm-overlay.show { display: flex; }
+.alarm-pulse {
+  width: 120px; height: 120px;
+  background: radial-gradient(circle, rgba(212,73,110,0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  animation: pulse 1.2s ease-in-out infinite;
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+@keyframes pulse {
+  0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(212,73,110,0.4); }
+  50%      { transform: scale(1.08); box-shadow: 0 0 0 24px rgba(212,73,110,0); }
+}
+.alarm-title {
+  font-family: var(--font-d);
+  font-size: 2rem;
+  color: var(--blush);
+  font-style: italic;
+  margin-bottom: 0.4rem;
+  text-align: center;
+}
+.alarm-client { font-size: 1rem; color: var(--text); margin-bottom: 0.3rem; }
+.alarm-detail { font-size: 0.85rem; color: var(--muted); margin-bottom: 2rem; }
+.alarm-warning {
+  font-size: 0.75rem; color: rgba(212,73,110,0.5);
+  margin-bottom: 1.5rem; text-align: center; max-width: 300px;
+  letter-spacing: 0.3px;
+}
+.btn-dismiss {
+  padding: 13px 42px;
+  background: var(--rose);
+  color: #fff; border: none;
+  border-radius: 40px;
+  font-family: var(--font-d);
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.btn-dismiss:hover { opacity: 0.9; }
+.btn-dismiss:active { transform: scale(0.98); }
+audio { display: none; }
+
+
+/* ── Toast ── */
+#toast {
+  position: fixed; bottom: 28px; right: 28px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 13px 20px;
+  border-radius: 12px;
+  font-size: 0.86rem;
+  max-width: 320px;
+  opacity: 0; pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.28s, transform 0.28s;
+  z-index: 900;
+}
+#toast.show { opacity: 1; transform: none; }
+#toast.ok   { border-left: 3px solid #3dbf8a; }
+#toast.err  { border-left: 3px solid var(--rose); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">💄</div>
+    <div class="logo-text">
+      <div class="logo-top">appointment system</div>
+      <div class="logo-main">Makeup by Rahmah</div>
+    </div>
+  </div>
+  <nav>
+    <button class="nav-btn active" onclick="showView('book',this)">Book</button>
+    <button class="nav-btn" onclick="showView('upcoming',this)">Upcoming</button>
+
+  </nav>
+</header>
+
+<main>
+
+<!-- ══ BOOK ══════════════════════════════════════════════════════════════════ -->
+<div id="view-book" class="view active">
+  <div class="page-title">New Appointment</div>
+  <div class="page-sub">Book an appointment and set your reminders. The alarm will ring on this device at the right time.</div>
+
+  <div class="form-card">
+
+    <!-- Client Info -->
+    <div class="section-label">Client information</div>
+    <div class="grid-2">
+      <div class="field"><label>Client name *</label><input type="text" id="clientName" placeholder="e.g. Fatima Bello"/></div>
+      <div class="field"><label>Location / address</label><input type="text" id="clientLocation" placeholder="e.g. Lekki Phase 1"/></div>
+    </div>
+
+    <!-- Appointment -->
+    <div class="section-label">Appointment details</div>
+    <div class="grid-3">
+      <div class="field"><label>Date *</label><input type="date" id="apptDate" onchange="checkMonthlyEligible()"/></div>
+      <div class="field"><label>Time *</label><input type="time" id="apptTime"/></div>
+      <div class="field">
+        <label>Service</label>
+        <select id="apptService">
+          <option>Full glam makeup</option>
+          <option>Bridal makeup</option>
+          <option>Natural / no-makeup look</option>
+          <option>Editorial / photoshoot</option>
+          <option>Aso-ebi glam</option>
+          <option>Skincare prep</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="field" style="margin-top:14px;">
+      <label>Notes</label>
+      <textarea id="apptNotes" placeholder="e.g. Bride wants gold cut crease, bring lashes..."></textarea>
+    </div>
+
+    <!-- Reminder type — alarm always on, push notification wakes phone -->
+    <div class="section-label">Reminder type</div>
+    <div class="channel-grid">
+      <div class="ch-toggle locked">🔔 Alarm + push notification — always on</div>
+    </div>
+
+
+
+    <!-- Multi-reminder builder -->
+    <div class="section-label">When to remind (add as many as you want)</div>
+    <div class="reminder-builder" id="reminder-builder">
+      <!-- rows added by JS -->
+    </div>
+    <button class="btn-add-reminder" onclick="addReminderRow()" style="margin-top:10px;">
+      + Add another reminder time
+    </button>
+
+    <!-- Alarm ringtone -->
+    <div class="section-label">Alarm ringtone — your favourite song</div>
+    <div class="ringtone-zone" onclick="document.getElementById('ringtone-input').click()">
+      <div style="font-size:1.8rem;">🎵</div>
+      <p>Click to upload your favourite song (MP3, WAV, M4A — max 25 MB)</p>
+      <p class="file-picked" id="file-name-display">No file chosen</p>
+    </div>
+    <input type="file" id="ringtone-input" accept="audio/*"/>
+    <p class="alarm-note">
+      🔔 The alarm will ring on this device when each reminder time arrives. It will keep ringing until you tap <strong>"Dismiss alarm"</strong> — it cannot be silenced any other way.
+    </p>
+
+    <button class="btn-submit" id="submit-btn" onclick="submitAppointment()">
+      Save appointment &amp; activate all reminders
+    </button>
+  </div>
+</div>
+
+<!-- ══ UPCOMING ═══════════════════════════════════════════════════════════════ -->
+<div id="view-upcoming" class="view">
+  <div class="page-title">All Appointments</div>
+  <div class="page-sub">Track every booking and see which reminders have fired.</div>
+
+
+  <div class="stats">
+    <div class="stat"><div class="stat-label">Total</div><div class="stat-val" id="stat-total">0</div></div>
+    <div class="stat"><div class="stat-label">Today</div><div class="stat-val" id="stat-today">0</div></div>
+    <div class="stat"><div class="stat-label">Upcoming</div><div class="stat-val" id="stat-upcoming">0</div></div>
+    <div class="stat"><div class="stat-label">Reminders sent</div><div class="stat-val" id="stat-fired">0</div></div>
+  </div>
+  <div class="appt-grid" id="appt-grid">
+    <div class="empty-state"><div class="empty-icon">📅</div><div class="empty-text">No appointments booked yet</div></div>
+  </div>
+</div>
+
+
+
+</main>
+
+<!-- ══ ALARM OVERLAY ══════════════════════════════════════════════════════════ -->
+<div id="alarm-overlay">
+  <div class="alarm-pulse" id="alarm-icon">🔔</div>
+  <div class="alarm-title">Appointment Reminder!</div>
+  <div class="alarm-client" id="alarm-client">Client name</div>
+  <div class="alarm-detail" id="alarm-detail">Service · Time</div>
+  <div class="alarm-warning">The alarm will keep ringing until you dismiss it</div>
+  <button class="btn-dismiss" onclick="dismissAlarm()">✓ &nbsp;I got it — Dismiss alarm</button>
+  <audio id="alarm-audio" loop></audio>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════════════
+//  MAKEUP BY RAHMAH — PWA with Push Notifications
+//  Push notifications fire even when the app is CLOSED.
+//  When tapped, app opens and alarm rings with her favourite song.
+// ══════════════════════════════════════════════════════════════════════════════
+
+const API = ''; // same origin — backend serves frontend
+
+// ── Service Worker & Push Setup ───────────────────────────────────────────────
+async function initPWA() {
+  if (!('serviceWorker' in navigator)) return;
+  try {
+    const reg = await navigator.serviceWorker.register('/sw.js');
+    console.log('[SW] Registered');
+
+    // Listen for messages from SW (alarm trigger when app is open)
+    navigator.serviceWorker.addEventListener('message', e => {
+      if (e.data?.type === 'TRIGGER_ALARM') triggerAlarm(e.data.data);
+    });
+
+    // Request push permission and subscribe
+    await setupPush(reg);
+
+    // Check if app was opened by tapping a notification
+    await checkPendingAlarm();
+  } catch(err) {
+    console.error('[SW] Error:', err);
+  }
+}
+
+async function setupPush(reg) {
+  const perm = await Notification.requestPermission();
+  if (perm !== 'granted') {
+    console.warn('[Push] Permission denied');
+    return;
+  }
+
+  // Get VAPID public key from server
+  const res  = await fetch('/api/vapid-public-key').catch(()=>null);
+  if (!res?.ok) return;
+  const { publicKey } = await res.json();
+
+  // Subscribe to push
+  const sub = await reg.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: urlBase64ToUint8Array(publicKey)
+  });
+
+  // Send subscription to server
+  await fetch('/api/subscribe', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ subscription: sub })
+  });
+  console.log('[Push] Subscribed successfully');
+}
+
+// Check if there is a pending alarm stored by the Service Worker
+async function checkPendingAlarm() {
+  try {
+    const db   = await openAlarmDB();
+    const data = await dbGet(db, 'pending_alarm');
+    if (data) {
+      await dbDel(db, 'pending_alarm');
+      // Small delay so app UI is ready
+      setTimeout(() => triggerAlarm(data), 800);
+    }
+  } catch {}
+}
+
+function urlBase64ToUint8Array(base64) {
+  const pad    = '='.repeat((4 - base64.length % 4) % 4);
+  const b64    = (base64 + pad).replace(/-/g,'+').replace(/_/g,'/');
+  const raw    = atob(b64);
+  const output = new Uint8Array(raw.length);
+  for (let i = 0; i < raw.length; i++) output[i] = raw.charCodeAt(i);
+  return output;
+}
+
+// ── IndexedDB helpers (for SW ↔ app communication) ────────────────────────────
+function openAlarmDB() {
+  return new Promise((res, rej) => {
+    const req = indexedDB.open('rahmah_sw', 1);
+    req.onupgradeneeded = e => e.target.result.createObjectStore('store');
+    req.onsuccess  = e => res(e.target.result);
+    req.onerror    = e => rej(e.target.error);
+  });
+}
+function dbGet(db, key) {
+  return new Promise((res, rej) => {
+    const req = db.transaction('store').objectStore('store').get(key);
+    req.onsuccess = e => res(e.target.result);
+    req.onerror   = e => rej(e.target.error);
+  });
+}
+function dbDel(db, key) {
+  return new Promise((res, rej) => {
+    const tx  = db.transaction('store','readwrite');
+    const req = tx.objectStore('store').delete(key);
+    req.onsuccess = () => res();
+    req.onerror   = e => rej(e.target.error);
+  });
+}
+
+// ── State ──────────────────────────────────────────────────────────────────────
+let appointments   = [];
+let alarmTimers    = {};
+let currentAlarmId = null;
+
+// ── Nav ────────────────────────────────────────────────────────────────────────
+function showView(name, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (name === 'upcoming') loadAppointments();
+}
+
+// ── Toast ──────────────────────────────────────────────────────────────────────
+function toast(msg, type='ok') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className   = 'show ' + type;
+  clearTimeout(window._tt);
+  window._tt = setTimeout(() => t.className = '', 3800);
+}
+
+// ── Reminder builder ───────────────────────────────────────────────────────────
+const REMINDER_OPTIONS = [
+  { value:5,     label:'5 minutes before' },
+  { value:10,    label:'10 minutes before' },
+  { value:15,    label:'15 minutes before' },
+  { value:30,    label:'30 minutes before' },
+  { value:60,    label:'1 hour before' },
+  { value:120,   label:'2 hours before' },
+  { value:180,   label:'3 hours before' },
+  { value:360,   label:'6 hours before' },
+  { value:720,   label:'12 hours before' },
+  { value:1440,  label:'1 day before' },
+  { value:2880,  label:'2 days before' },
+  { value:4320,  label:'3 days before' },
+  { value:10080, label:'1 week before' },
+];
+
+function addReminderRow(defaultVal=60) {
+  const builder = document.getElementById('reminder-builder');
+  const row     = document.createElement('div');
+  row.className = 'reminder-row';
+  row.innerHTML = `
+    <span class="rem-label">Remind me</span>
+    <select>${REMINDER_OPTIONS.map(o=>`<option value="${o.value}" ${o.value===defaultVal?'selected':''}>${o.label}</option>`).join('')}</select>
+    <button class="rem-remove" onclick="this.parentElement.remove()" title="Remove">✕</button>
+  `;
+  builder.appendChild(row);
+}
+addReminderRow(60);
+
+function getReminders() {
+  return Array.from(document.querySelectorAll('#reminder-builder .reminder-row select'))
+    .map(sel => ({
+      minutesBefore: parseInt(sel.value),
+      label: REMINDER_OPTIONS.find(o=>o.value===parseInt(sel.value))?.label || sel.options[sel.selectedIndex].text,
+      fired: false
+    }));
+}
+
+// ── Ringtone picker ────────────────────────────────────────────────────────────
+document.getElementById('ringtone-input').addEventListener('change', function() {
+  document.getElementById('file-name-display').textContent =
+    this.files[0] ? '🎵 ' + this.files[0].name : 'No file chosen';
+});
+
+// ── Book appointment ───────────────────────────────────────────────────────────
+async function submitAppointment() {
+  const name = document.getElementById('clientName').value.trim();
+  const date = document.getElementById('apptDate').value;
+  const time = document.getElementById('apptTime').value;
+  if (!name||!date||!time) { toast('Please fill in name, date & time','err'); return; }
+
+  const reminders = getReminders();
+  if (!reminders.length) { toast('Add at least one reminder time','err'); return; }
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true; btn.textContent = 'Saving…';
+
+  const fd = new FormData();
+  fd.append('clientName', name);
+  fd.append('date',       date);
+  fd.append('time',       time);
+  fd.append('service',    document.getElementById('apptService').value);
+  fd.append('notes',      document.getElementById('apptNotes').value);
+  fd.append('reminders',  JSON.stringify(reminders));
+  fd.append('monthlyCountdown', 'false');
+  const audioFile = document.getElementById('ringtone-input').files[0];
+  if (audioFile) fd.append('ringtone', audioFile);
+
+  try {
+    const res  = await fetch(API+'/api/appointments', { method:'POST', body:fd });
+    const data = await res.json();
+    if (data.success) {
+      toast(`Saved! ${reminders.length} reminder${reminders.length>1?'s':''} set for ${name} 💄`);
+      // Also schedule local browser alarms as backup
+      scheduleLocalAlarms({ ...data.appointment, ringtonePath: data.appointment.ringtonePath });
+      resetForm();
+      loadAppointments();
+    } else {
+      toast('Error: ' + (data.error||'unknown'), 'err');
+    }
+  } catch(e) {
+    toast('Cannot reach server', 'err');
+    console.error(e);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Save appointment & activate all reminders';
+  }
+}
+
+function resetForm() {
+  ['clientName','clientLocation','apptDate','apptTime','apptNotes']
+    .forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('file-name-display').textContent = 'No file chosen';
+  document.getElementById('ringtone-input').value = '';
+  document.getElementById('reminder-builder').innerHTML = '';
+  addReminderRow(60);
+}
+
+// ── Load & render appointments ─────────────────────────────────────────────────
+async function loadAppointments() {
+  try {
+    const res  = await fetch(API+'/api/appointments');
+    appointments = await res.json();
+    renderAppointments();
+    // Schedule local backup alarms
+    appointments.filter(a=>!a.alarm_dismissed).forEach(scheduleLocalAlarms);
+  } catch(e) { console.error('Load error:', e); }
+}
+
+function renderAppointments() {
+  const today = new Date().toISOString().split('T')[0];
+  const grid  = document.getElementById('appt-grid');
+  const sorted = [...appointments].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+
+  const firedCount = appointments.reduce((acc,a)=>acc+(a.reminders||[]).filter(r=>r.fired).length,0);
+  document.getElementById('stat-total').textContent    = appointments.length;
+  document.getElementById('stat-today').textContent    = appointments.filter(a=>a.date===today).length;
+  document.getElementById('stat-upcoming').textContent = appointments.filter(a=>a.date>=today).length;
+  document.getElementById('stat-fired').textContent    = firedCount;
+
+  if (!sorted.length) {
+    grid.innerHTML = '<div class="empty-state"><div class="empty-icon">📅</div><div class="empty-text">No appointments booked yet</div></div>';
+    return;
+  }
+
+  grid.innerHTML = sorted.map(a => {
+    const name     = a.clientName || a.client_name || '';
+    const initials = name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+    const daysLeft = Math.ceil((new Date(a.date+'T'+a.time)-new Date())/86400000);
+    const countdown= daysLeft>0 ? `<span class="countdown-badge">${daysLeft}d away</span>` : '';
+    const dismissed= (a.alarm_dismissed||a.alarmDismissed) ? '<span class="pill pill-done">✓ Dismissed</span>' : '';
+    const hasAudio = a.ringtonePath ? '<span class="pill pill-alarm">🎵 Song set</span>' : '<span class="pill pill-alarm">🔔 Alarm</span>';
+    const remPills = (a.reminders||[]).map(r=>
+      `<span class="rem-pill ${r.fired?'fired':''}">${r.label}${r.fired?' ✓':''}</span>`
+    ).join('');
+    return `
+    <div class="appt-card">
+      <div class="appt-top">
+        <div class="appt-avatar">${initials}</div>
+        <div class="appt-info">
+          <div class="appt-name">${name}</div>
+          <div class="appt-service">${a.service||''}${a.notes?' · '+a.notes:''}</div>
+        </div>
+        <div class="appt-datetime">
+          <div class="appt-date">${a.date}</div>
+          <div class="appt-time">${a.time}</div>
+        </div>
+        ${countdown}
+        <button class="del-btn" onclick="deleteAppt('${a.id}')" title="Delete">✕</button>
+      </div>
+      <div class="appt-bottom">${hasAudio}${dismissed}</div>
+      ${remPills ? `<div class="rem-pills">${remPills}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+async function deleteAppt(id) {
+  if (!confirm('Remove this appointment?')) return;
+  Object.keys(alarmTimers).filter(k=>k.startsWith(id)).forEach(k=>{
+    clearTimeout(alarmTimers[k]); delete alarmTimers[k];
+  });
+  await fetch(API+'/api/appointments/'+id, { method:'DELETE' });
+  loadAppointments();
+}
+
+// ── Local alarm backup (fires if app is open, server push fires if closed) ────
+function scheduleLocalAlarms(appt) {
+  const apptTime = new Date(`${appt.date}T${appt.time}`);
+  (appt.reminders||[]).forEach((rem,idx) => {
+    if (rem.fired) return;
+    const fireAt = new Date(apptTime.getTime() - rem.minutesBefore*60000);
+    const delay  = fireAt - Date.now();
+    if (delay <= 0) return;
+    const key = `${appt.id}_${idx}`;
+    if (alarmTimers[key]) return; // already scheduled
+    alarmTimers[key] = setTimeout(() => {
+      triggerAlarm({
+        appointmentId: appt.id,
+        clientName:    appt.clientName || appt.client_name,
+        service:       appt.service,
+        date:          appt.date,
+        time:          appt.time,
+        notes:         appt.notes,
+        reminderLabel: rem.label,
+        hasAudio:      !!appt.ringtonePath
+      });
+    }, delay);
+  });
+}
+
+// ── Alarm trigger (called by push message OR local timer) ─────────────────────
+function triggerAlarm(data) {
+  currentAlarmId = data.appointmentId || data.id;
+
+  document.getElementById('alarm-client').textContent = data.clientName || data.client_name || '';
+  document.getElementById('alarm-detail').textContent =
+    `${data.service} · ${data.time} · ${data.reminderLabel||''}`;
+
+  // Fetch audio from server (stored in Supabase via backend)
+  const audio = document.getElementById('alarm-audio');
+  if (data.hasAudio && currentAlarmId) {
+    audio.src = API+'/api/audio/'+currentAlarmId;
+    audio.load();
+  }
+
+  clearInterval(window._alarmInterval);
+  window._alarmInterval = setInterval(() => {
+    if (data.hasAudio) { if(audio.paused) audio.play().catch(()=>{}); }
+    else startBeep();
+  }, 800);
+  if (data.hasAudio) audio.play().catch(()=>{});
+  else startBeep();
+
+  document.getElementById('alarm-overlay').classList.add('show');
+  showNotifBanner(`💄 ${data.clientName||''} — ${data.service} at ${data.time}`);
+}
+
+function showNotifBanner(msg) {
+  let b = document.getElementById('notif-banner');
+  if (!b) {
+    b = document.createElement('div');
+    b.id = 'notif-banner';
+    b.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#1a0a14;border:1px solid rgba(212,73,110,0.5);color:#f2a7be;font-family:"Plus Jakarta Sans",sans-serif;font-size:0.88rem;font-weight:500;padding:14px 22px;border-radius:14px;z-index:9999;max-width:90vw;text-align:center;';
+    document.body.appendChild(b);
+  }
+  b.textContent = msg;
+  b.style.display = 'block';
+}
+
+function startBeep() {
+  try {
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    const osc=ctx.createOscillator(); const g=ctx.createGain();
+    osc.connect(g); g.connect(ctx.destination);
+    osc.frequency.value=880;
+    g.gain.setValueAtTime(0.3,ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.5);
+    osc.start(); osc.stop(ctx.currentTime+0.5);
+  } catch {}
+}
+
+async function dismissAlarm() {
+  const audio=document.getElementById('alarm-audio');
+  audio.pause(); audio.currentTime=0; audio.src='';
+  clearInterval(window._alarmInterval);
+  document.getElementById('alarm-overlay').classList.remove('show');
+  const b=document.getElementById('notif-banner');
+  if(b) b.style.display='none';
+
+  if (currentAlarmId) {
+    try {
+      await fetch(API+'/api/appointments/'+currentAlarmId+'/dismiss', { method:'POST' });
+    } catch {}
+  }
+  currentAlarmId = null;
+  loadAppointments();
+}
+
+// ── Boot ───────────────────────────────────────────────────────────────────────
+initPWA();
+loadAppointments();
+</script>
+</body>
+</html>
