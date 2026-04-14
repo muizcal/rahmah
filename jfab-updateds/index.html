@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J-Fab Perfumes | Signature Fragrances</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR — controlled by admin only, hidden until set -->
+<div id="announcement-bar" class="announcement-bar" style="display:none">
+  <div class="announcement-content">
+    <span id="announcement-text"></span>
+  </div>
+  <button class="announcement-close" onclick="closeAnnouncement()">✕</button>
+</div>
+
+<!-- FLASH SALE BAR (shown when admin activates flash sale) -->
+<div id="flash-sale-bar" class="flash-sale-bar" style="display:none">
+  <div class="flash-sale-content">
+    <span class="flash-fire">⚡</span>
+    <span id="flash-sale-text"></span>
+    <span class="flash-countdown-mini" id="flash-countdown-mini"></span>
+  </div>
+  <button class="announcement-close" onclick="closeFlashBar()">✕</button>
+</div>
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <div class="header-main">
+    <a href="index.html" class="logo-link">
+      <img src="images/logo.png" alt="J-Fab Perfumes" class="logo">
+      <div class="brand-name">
+        <span class="brand-name-main">J-FAB</span>
+        <span class="brand-name-sub">PERFUMES</span>
+      </div>
+    </a>
+    <nav class="nav">
+      <a href="#categories">Categories</a>
+      <a href="#about">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-icon icon-labeled" onclick="openSearch()" title="Search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="icon-label">Search</span>
+      </button>
+      <button class="btn-icon icon-labeled" onclick="openWishlist()" title="Wishlist" id="wishlist-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        <span class="icon-label">Wishlist</span>
+        <span class="wishlist-count" id="wishlist-count" style="display:none">0</span>
+      </button>
+      <button class="btn-icon icon-labeled" onclick="openCart()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="icon-label">Cart</span>
+        <span class="cart-count" id="cart-count">0</span>
+      </button>
+      <button class="btn-icon icon-labeled" onclick="handleAccountClick()" id="account-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <span class="icon-label" id="account-label">Account</span>
+      </button>
+    </div>
+    <div class="mobile-search-bar" id="mobile-search-bar">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="mobile-search-input" placeholder="Search perfumes…" oninput="mobileSearchLive(this.value)" onfocus="mobileSearchFocus()" onblur="mobileSearchBlur()">
+      <button class="mobile-search-clear" id="mobile-search-clear" onclick="clearMobileSearch()" style="display:none">✕</button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#categories" onclick="toggleMobileMenu()">Categories</a>
+    <a href="#about" onclick="toggleMobileMenu()">About</a>
+    <a href="contact.html" onclick="toggleMobileMenu()">Contact</a>
+    <a href="faq.html" onclick="toggleMobileMenu()">FAQ</a>
+    <a href="contact.html#request" onclick="toggleMobileMenu()">Request a Perfume</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="https://cdn.mos.cms.futurecdn.net/VzUqgr8pfbNcfXrpzeVBPE.jpg" alt="Luxury Perfumes" class="hero-img">
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-sub">Signature Fragrances by J-Fab</p>
+    <h1 class="hero-title">Discover Your<br><em>Signature Scent</em></h1>
+    <p class="hero-desc">Curated luxury fragrances, designer perfumes, and exclusive collections — delivered to your doorstep across Lagos and beyond.</p>
+    <div class="hero-btns">
+      <a href="#categories" class="btn btn-gold">Shop Now</a>
+      <a href="#about" class="btn btn-outline btn-outline-white">About Us</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories" id="categories">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-sub">Browse By</p>
+      <h2 class="section-title">Our Collections</h2>
+    </div>
+    <div class="cat-grid" id="cat-grid">
+      <!-- Loaded dynamically to support admin-created categories -->
+    </div>
+  </div>
+</section>
+
+
+<!-- FLASH SALE SECTION — shown only when admin activates a flash sale -->
+<section class="flash-sale-section" id="flash-sale-section" style="display:none">
+  <div class="container">
+    <div class="flash-sale-header">
+      <div class="flash-sale-title-row">
+        <span class="flash-fire-big">⚡</span>
+        <h2 id="flash-sale-title">Flash Sale</h2>
+      </div>
+      <div class="flash-countdown-section">
+        <span class="flash-ends-label">Ends in:</span>
+        <div class="flash-cd-blocks">
+          <div class="flash-cd-block"><span id="fcd-h">00</span><label>Hrs</label></div>
+          <div class="flash-cd-sep">:</div>
+          <div class="flash-cd-block"><span id="fcd-m">00</span><label>Min</label></div>
+          <div class="flash-cd-sep">:</div>
+          <div class="flash-cd-block"><span id="fcd-s">00</span><label>Sec</label></div>
+        </div>
+      </div>
+    </div>
+    <div class="flash-products-grid" id="flash-products"></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-sub">What Customers Say</p>
+      <h2 class="section-title">Real <em>Reviews</em></h2>
+    </div>
+    <div class="testi-track-wrap">
+      <div class="testi-track" id="testi-track">
+        <!-- cards injected by JS -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="why-us">
+  <div class="container">
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>100% Authentic</h3>
+        <p>Every fragrance is sourced directly from certified suppliers. No counterfeits, ever.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
+        <h3>Fast Delivery</h3>
+        <p>Island, Mainland & Outside Lagos delivery options available. Same-day delivery possible!</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
+        </div>
+        <h3>Loyalty Points</h3>
+        <p>Earn 1 point on every order. Redeem as discount on your next purchase.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h3>Premium Quality</h3>
+        <p>Curated luxury and designer fragrances for every occasion and personality.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container about-wrap about-wrap--text-only">
+    <div class="about-text">
+      <p class="section-sub">Our Story</p>
+      <h2>J-Fab Perfumes <em>Signature</em></h2>
+      <p>We believe a great fragrance is more than a scent — it is a feeling, a memory, a statement. J-Fab Perfumes was born from a passion for the art of perfumery, curating only the finest luxury, designer, and rare fragrances from around the world and bringing them to you.</p>
+      <a href="https://wa.me/2348147474278" class="btn btn-gold" target="_blank">Chat With Us</a>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- NEWSLETTER — compact single-row, sits just above footer -->
+<section class="newsletter-section">
+  <div class="container newsletter-wrap">
+    <div class="newsletter-text">
+      <p class="section-sub">Stay In The Loop</p>
+      <h2>Subscribe to Our Newsletter</h2>
+    </div>
+    <form class="newsletter-form" onsubmit="submitNewsletter(event)">
+      <div class="newsletter-inline-row">
+        <input type="email" id="newsletter-email" placeholder="Enter your email address" required>
+        <button type="submit" class="btn btn-gold">Subscribe</button>
+      </div>
+      <div class="newsletter-consent">
+        <label class="consent-label">
+          <input type="checkbox" id="newsletter-consent" required>
+          <span>Yes, subscribe me to your newsletter.</span>
+        </label>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-grid">
+
+    <!-- Brand + Socials -->
+    <div class="footer-brand">
+      <p class="footer-brand-name">J-Fab Perfumes</p>
+      <div class="social-links">
+        <a href="https://instagram.com/j_fabperfumes" target="_blank" class="social-icon" title="Instagram @j_fabperfumes">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="https://tiktok.com/@j_fabperfumes" target="_blank" class="social-icon" title="TikTok @j_fabperfumes">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.72a8.18 8.18 0 004.79 1.54V6.79a4.85 4.85 0 01-1.02-.1z"/></svg>
+        </a>
+        <a href="https://facebook.com/j_fabperfumes" target="_blank" class="social-icon" title="Facebook @j_fabperfumes">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a href="https://wa.me/2348147474278" target="_blank" class="social-icon" title="WhatsApp">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Categories — accordion on mobile -->
+    <div class="footer-col footer-accordion">
+      <button class="footer-acc-toggle" onclick="toggleFooterAcc(this)" aria-expanded="false">
+        <span>Categories</span>
+        <svg class="acc-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="footer-acc-body">
+        <a href="#" onclick="event.preventDefault();openCategoryPage('designer')">Designer Perfumes</a>
+        <a href="#" onclick="event.preventDefault();openCategoryPage('luxury')">Luxury Perfumes</a>
+        <a href="#" onclick="event.preventDefault();openCategoryPage('gift-men')">Gift Sets — Men</a>
+        <a href="#" onclick="event.preventDefault();openCategoryPage('gift-women')">Gift Sets — Women</a>
+        <a href="#" onclick="event.preventDefault();openCategoryPage('fragrance')">Fragrance World</a>
+        <a href="#" onclick="event.preventDefault();openCategoryPage('home')">Home Fragrances</a>
+        <a href="#" onclick="event.preventDefault();openCategoryPage('mini')">Mini Perfumes</a>
+        <a href="#" onclick="event.preventDefault();openCategoryPage('oil')">Oil Perfumes</a>
+        <a href="#" onclick="event.preventDefault();openCategoryPage('deodorant')">Deodorants</a>
+      </div>
+    </div>
+
+    <!-- Information — accordion on mobile -->
+    <div class="footer-col footer-accordion">
+      <button class="footer-acc-toggle" onclick="toggleFooterAcc(this)" aria-expanded="false">
+        <span>Information</span>
+        <svg class="acc-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="footer-acc-body">
+        <a href="#about">About Us</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html">Contact</a>
+        <a href="contact.html#request">Request a Perfume</a>
+      </div>
+    </div>
+
+  </div>
+  <div class="footer-bottom">
+    <p>© <span id="footer-year"></span> J-Fab Perfumes Signature. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+<div class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-header">
+    <h3>Your Cart</h3>
+    <button onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <div class="empty-cart">Your cart is empty</div>
+  </div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="promo-row">
+      <input type="text" id="promo-input" placeholder="Promo code / POINTS" autocomplete="off" style="text-transform:uppercase">
+      <button onclick="applyPromo()">Apply</button>
+    </div>
+    <!-- Applied promo tag — shown when a promo is active -->
+    <div id="applied-promo-tag" style="display:none;align-items:center;justify-content:space-between;background:#f0fff4;border:1px solid #b7ebc5;border-radius:6px;padding:7px 12px;margin-bottom:8px;font-size:0.82rem;">
+      <span style="display:flex;align-items:center;gap:6px;color:#1a6b30;font-weight:600">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <span class="promo-tag-text"></span>
+      </span>
+      <button onclick="removePromo()" style="background:none;border:none;cursor:pointer;color:#888;font-size:1rem;line-height:1;padding:0 2px" title="Remove promo">✕</button>
+    </div>
+    <div class="cart-totals">
+      <div class="total-row"><span>Subtotal</span><span id="cart-subtotal">₦0</span></div>
+      <div class="total-row" id="discount-row" style="display:none"><span>Discount</span><span id="cart-discount" style="color:#e74c3c">-₦0</span></div>
+      <div class="total-row"><span>Delivery</span><span id="cart-delivery">TBD</span></div>
+      <div class="total-row total-final"><span>Total</span><span id="cart-total">₦0</span></div>
+    </div>
+    <button class="btn btn-gold w-full" onclick="proceedToCheckout()">Proceed to Checkout</button>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="product-modal-overlay" onclick="closeProductModal()">
+  <div class="product-modal" id="product-modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeProductModal()">✕</button>
+    <div class="pm-content" id="pm-content"></div>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal-overlay" id="checkout-modal-overlay">
+  <div class="checkout-modal" id="checkout-modal">
+    <button class="modal-close" onclick="closeCheckout()">✕</button>
+    <h2>Complete Your Order</h2>
+    <div class="checkout-steps">
+      <div class="step active" id="step1-tab">1. Details</div>
+      <div class="step" id="step2-tab">2. Delivery</div>
+      <div class="step" id="step3-tab">3. Payment</div>
+    </div>
+    <!-- Step 1 -->
+    <div id="checkout-step1">
+      <div class="form-group">
+        <label>Order as</label>
+        <div class="toggle-group">
+          <button class="toggle-btn active" onclick="setGuestMode(true, this)">Guest</button>
+          <button class="toggle-btn" onclick="setGuestMode(false, this)">Login / Register</button>
+        </div>
+      </div>
+      <div id="guest-form">
+        <input type="text" id="co-name" placeholder="Full Name *" required>
+        <input type="email" id="co-email" placeholder="Email Address *" required>
+        <input type="tel" id="co-phone" placeholder="Phone Number *" required>
+      </div>
+      <div id="auth-form" style="display:none">
+        <input type="email" id="auth-email" placeholder="Email Address">
+        <input type="password" id="auth-pass" placeholder="Password">
+        <button class="btn btn-outline" onclick="loginUser()">Login</button>
+      </div>
+      <button class="btn btn-gold" onclick="goToStep(2)">Next: Delivery →</button>
+    </div>
+    <!-- Step 2 -->
+    <div id="checkout-step2" style="display:none">
+      <label><strong>Fulfillment Method</strong></label>
+      <div class="radio-group">
+        <label class="radio-opt" onclick="setDelivery('delivery')">
+          <input type="radio" name="fulfillment" value="delivery">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Home Delivery
+        </label>
+        <label class="radio-opt" onclick="setDelivery('pickup')">
+          <input type="radio" name="fulfillment" value="pickup">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Store Pickup (FREE)
+        </label>
+      </div>
+      <!-- DELIVERY PRICING shown here at checkout -->
+      <div id="delivery-options" style="display:none">
+        <label><strong>Delivery Zone</strong></label>
+        <div class="delivery-rates-info">
+          <p class="rates-label">Delivery rates:</p>
+          <span class="rate-pill">Island ₦2,500</span>
+          <span class="rate-pill">Mainland ₦3,500</span>
+          <span class="rate-pill">Outside Lagos ₦5,000</span>
+        </div>
+        <select id="delivery-zone" onchange="updateDeliveryCost()">
+          <option value="">-- Select Zone --</option>
+          <option value="island">Island — ₦2,500</option>
+          <option value="mainland">Mainland — ₦3,500</option>
+          <option value="outside">Outside Lagos — ₦5,000</option>
+        </select>
+        <input type="text" id="co-address" placeholder="Delivery Address *">
+      </div>
+      <div id="pickup-info" style="display:none">
+        <div class="pickup-address-box">
+          <strong>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:4px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Pickup Location:
+          </strong><br>
+          FH84+5Q6, Ikota, Lekki 101245, Lagos<br>
+          <a href="https://maps.google.com/?q=FH84%2B5Q6+Ikota+Lekki+Lagos" target="_blank" class="btn-link">Get Directions →</a>
+        </div>
+      </div>
+      <button class="btn btn-outline" onclick="goToStep(1)">← Back</button>
+      <button class="btn btn-gold" onclick="goToStep(3)">Next: Payment →</button>
+    </div>
+    <!-- Step 3 -->
+    <div id="checkout-step3" style="display:none">
+      <div class="order-summary-mini" id="order-summary-mini"></div>
+      <p style="text-align:center;margin:16px 0">You will be redirected to Paystack to complete payment securely.</p>
+      <div id="paystack-btn-wrap"></div>
+      <button class="btn btn-outline" onclick="goToStep(2)">← Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="auth-modal-overlay">
+  <div class="auth-modal">
+    <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    <div id="auth-modal-content"></div>
+  </div>
+</div>
+
+<!-- NOTIFY ME MODAL -->
+<div class="modal-overlay" id="notify-modal-overlay">
+  <div class="notify-modal">
+    <button class="modal-close" onclick="closeNotifyModal()">✕</button>
+    <h3>Notify Me When Available</h3>
+    <p>We'll alert you as soon as this product is back in stock.</p>
+    <input type="text" id="notify-name" placeholder="Your Name">
+    <input type="email" id="notify-email" placeholder="Email Address *" required>
+    <input type="tel" id="notify-phone" placeholder="Phone / WhatsApp">
+    <button class="btn btn-gold" onclick="submitNotify()">Notify Me</button>
+  </div>
+</div>
+
+<!-- CHATBOX -->
+<div class="chatbox" id="chatbox">
+  <div class="chat-header">
+    <img src="images/logo.png" alt="J-Fab" class="chat-logo">
+    <div>
+      <strong>J-Fab Support</strong>
+      <span class="chat-support-badge">AI Assistant</span>
+      <span class="online-dot">● Online</span>
+    </div>
+    <button onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chat-messages">
+    <div class="chat-msg bot">👋 Hi! Welcome to J-Fab Perfumes. How can I help you today?</div>
+    <div class="chat-quick-replies">
+      <button onclick="quickReply('Delivery info')">Delivery Info</button>
+      <button onclick="quickReply('What promotions do you have?')">Promotions</button>
+      <button onclick="quickReply('I need help choosing a perfume')">Help Me Choose</button>
+    </div>
+  </div>
+  <div class="chat-input-row">
+    <input type="text" id="chat-input" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendChat()">
+    <button onclick="sendChat()">Send</button>
+  </div>
+</div>
+<div class="chat-trigger-wrap">
+  <span class="chat-trigger-label">Need help?</span>
+  <button class="chat-trigger" id="chat-trigger" onclick="toggleChat()">
+    <img src="images/logo.png" alt="Chat">
+  </button>
+</div>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="search-overlay">
+  <button class="modal-close" style="color:#fff;position:absolute;top:20px;right:20px;font-size:2rem;" onclick="closeSearch()">✕</button>
+  <div class="search-box">
+    <input type="text" id="search-input" placeholder="Search fragrances..." oninput="doSearch(this.value)">
+  </div>
+  <div class="search-results" id="search-results"></div>
+</div>
+
+<!-- WISHLIST SIDEBAR -->
+<div class="cart-overlay" id="wishlist-overlay" onclick="closeWishlist()"></div>
+<div class="cart-sidebar" id="wishlist-sidebar">
+  <div class="cart-header">
+    <h3>My Wishlist</h3>
+    <button onclick="closeWishlist()">✕</button>
+  </div>
+  <div class="cart-items" id="wishlist-items">
+    <div class="empty-cart">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5" style="margin:0 auto 12px;display:block"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      Your wishlist is empty
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── J-Fab API Configuration ──────────────────────────────────────────
+  // Replace this URL with your Railway backend URL (or custom domain backend)
+  window.JFAB_API = 'https://j-fab-production.up.railway.app/api';
+  // If using custom domain backend: window.JFAB_API = 'https://api.yourdomain.com/api';
+</script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+
+<!-- CATEGORY PAGE OVERLAY -->
+<div class="catpage-overlay" id="catpage-overlay">
+  <div class="catpage-inner">
+    <div class="catpage-hero" id="catpage-hero">
+      <div class="catpage-hero-overlay"></div>
+      <div class="catpage-hero-content">
+        <button class="catpage-back" onclick="closeCategoryPage()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Back
+        </button>
+        <h1 class="catpage-title" id="catpage-title"></h1>
+        <p class="catpage-subtitle" id="catpage-subtitle"></p>
+      </div>
+    </div>
+    <div class="catpage-content">
+      <div id="catpage-body"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-bottom-nav">
+  <button class="mbn-item" onclick="toggleMobileMenu()">
+    <span class="mbn-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </span>
+    <span class="mbn-label">Menu</span>
+  </button>
+  <button class="mbn-item" onclick="openWishlist()">
+    <span class="mbn-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      <span class="mbn-badge" id="mbn-wishlist-badge">0</span>
+    </span>
+    <span class="mbn-label">Wishlist</span>
+  </button>
+  <button class="mbn-item mbn-cart" onclick="openCart()">
+    <span class="mbn-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="mbn-badge mbn-badge--gold" id="mbn-cart-badge">0</span>
+    </span>
+    <span class="mbn-label">Cart</span>
+  </button>
+  <button class="mbn-item" onclick="handleAccountClick()" id="mbn-account-btn">
+    <span class="mbn-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </span>
+    <span class="mbn-label" id="mbn-account-label">Account</span>
+  </button>
+</nav>
+<!-- PROFILE SIDEBAR -->
+<div class="cart-overlay" id="profile-overlay" onclick="closeProfile()"></div>
+<div class="cart-sidebar" id="profile-sidebar">
+  <div class="cart-header">
+    <h3 style="font-family:'Playfair Display',serif">My Account</h3>
+    <button onclick="closeProfile()">✕</button>
+  </div>
+  <div id="profile-body" style="flex:1;overflow-y:auto;padding:0"></div>
+</div>
+
+</body>
+</html>
